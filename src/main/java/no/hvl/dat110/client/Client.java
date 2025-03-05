@@ -1,5 +1,6 @@
 package no.hvl.dat110.client;
 
+import no.hvl.dat110.common.Logger;
 import no.hvl.dat110.messages.*;
 import no.hvl.dat110.messagetransport.Connection;
 import no.hvl.dat110.messagetransport.MessagingClient;
@@ -38,6 +39,7 @@ public class Client extends Thread {
 		if (connection != null) {
 
 			send(msg);
+			Logger.log("Message [type=CONNECT, user=" + user + "]");
 			connected = true;
 
 		}
@@ -50,6 +52,8 @@ public class Client extends Thread {
 		DisconnectMsg msg = new DisconnectMsg(user);
 
 		send(msg);
+		
+		Logger.log("Message [type=DISCONNECT, user=" + user + "]");
 
 		connection.close();
 

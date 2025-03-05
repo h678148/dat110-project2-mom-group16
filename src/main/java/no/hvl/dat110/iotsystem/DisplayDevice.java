@@ -24,11 +24,27 @@ public class DisplayDevice {
 		// - unsubscribe from the topic
 		// - disconnect from the broker
 		
-		// TODO - END
+		Client client = new Client("display", Common.BROKERHOST, Common.BROKERPORT);
 		
-		System.out.println("Display stopping ... ");
-		
-		throw new UnsupportedOperationException(TODO.method());
+		if(client.connect()) {
+			
+			client.createTopic(Common.TEMPTOPIC);
+			client.subscribe(Common.TEMPTOPIC);
+			
+			for(int i = 0; i < COUNT; i++) {
+				
+				Message msg = client.receive();
+				
+				if(msg != null) {
+					System.out.println("DISPLAY: " + msg.toString());
+				} 
+			}
+			
+			client.unsubscribe(Common.TEMPTOPIC);
+			
+			client.disconnect();
+			System.out.println("Display stopping ... ");
+		}
 		
 	}
 }
